@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+
+# 敏感信息 - 绝对不要上传！
+config_local.json
+credentials.json
+*.env
+.env.local
+
+# Origin系统登录信息
+origin_credentials.txt
+passwords.txt
+
+# 项目特定文件
+logs/
+data/temp/
+data/exports/
+*.log
+
+# OCR模型缓存（很大，不需要上传）
+.EasyOCR/
+easyocr_models/
+
+# 测试图片（可能包含病人信息）
+test_images/
+sample_photos/
+*.jpg
+*.jpeg
+*.png
+*.bmp
+# 但保留示例图片
+!docs/screenshots/*.png
+!assets/*.png
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# 数据库文件
+*.db
+*.sqlite
+*.sqlite3
+
+# 备份文件
+*.bak
+*.backup
+*~
+
+# Windows
+$RECYCLE.BIN/
+*.lnk
+
+# 安装包
+dist/
+build/
+*.egg-info/

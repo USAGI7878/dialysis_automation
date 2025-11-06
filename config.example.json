@@ -1,0 +1,6 @@
+{
+  "origin_url": "https://your-origin-system-url.com",
+  "ocr_settings": {
+    "use_gpu": false
+  }
+}
