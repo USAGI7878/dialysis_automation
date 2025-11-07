@@ -305,4 +305,4 @@ OCR 识别不准确？
 @USAGI7878 – 医疗信息化护理师
 📧 peggy8526123@gmail.com
 
-<div align="center"> ⭐ 如果这个项目对你有帮助，请点亮 Star！ 由一位热爱编程的护理师 ❤️ 制作 </div> </details> ```
+<div align="center"> ⭐ 如果这个项目对你有帮助，请点亮 Star！ 由一位热爱编程的护理师 ❤️ 制作 </div> </details> 
