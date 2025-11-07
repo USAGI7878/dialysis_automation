@@ -2,9 +2,7 @@
 
 <div align="center">
 
-![Main Interface](docs/screenshots/main.png)
-![Workflow](docs/screenshots/workflow.png)
-![Demo](docs/screenshots/demo.png)
+![Main Interface](docs/screenshots/main-interface.png)
 
 🌍 English | 中文
 
@@ -92,9 +90,6 @@ As a nurse learning programming, I created this tool to:
 │ Step 2: Extract Obs │ │ Hourly Obs │
 │ Step 3: Auto Fill │ │ Complete! │
 └─────────────────────────────────────────────────────────┘
-
-yaml
-Copy code
 
 **Workflow:**  
 📷 Photo → 🔍 OCR → ✏️ Verify → 🤖 Auto-fill → ✅ Done
