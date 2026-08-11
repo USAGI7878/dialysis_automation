@@ -2,5 +2,8 @@
   "origin_url": "https://your-origin-system-url.com",
   "ocr_settings": {
     "use_gpu": false
-  }
+  },
+  "gemini_api_key": "",
+  "tesseract_path": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+  "gemini_model": ""
 }

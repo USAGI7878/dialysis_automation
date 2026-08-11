@@ -20,13 +20,19 @@ echo 🔄 激活虚拟环境...
 echo Activating virtual environment...
 call venv\Scripts\activate.bat
 
-REM 检查是否需要安装依赖
-pip show paddleocr >nul 2>&1
+REM 检查是否需要安装依赖(检测pytesseract而不是已经不用的paddleocr)
+pip show pytesseract >nul 2>&1
 if errorlevel 1 (
     echo 📦 安装依赖包...
     echo Installing dependencies...
     pip install -r requirements.txt
     echo ✅ 依赖安装完成！
+    echo.
+) else (
+    REM 就算主要依赖已装，也顺手跑一次requirements.txt，
+    REM 确保requirements.txt里新增的包(比如google-genai)不会漏装
+    echo 🔄 确认依赖是否为最新...
+    pip install -r requirements.txt -q
     echo.
 )
 
