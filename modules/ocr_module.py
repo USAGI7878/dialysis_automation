@@ -120,7 +120,6 @@ class DialysisOCR:
         except Exception as e:
             logger.error(f"❌ Tesseract initialization failed: {e}")
             logger.error("Make sure Tesseract is installed and path is correct")
-    
     def preprocess_image(self, image_path: str, method: str = 'adaptive') -> np.ndarray:
         """
         图像预处理以提升OCR准确率
