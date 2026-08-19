@@ -25,6 +25,7 @@ import os
 import json
 import re
 import logging
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -344,6 +345,44 @@ class _GeminiOCRBase:
                         "(free tier limits typically reset per minute) and retrying usually works.\n"
                         "Check your current quota at https://aistudio.google.com/apikey, or consider "
                         "upgrading to a paid tier if this happens often.\n\n"
+                        f"原始错误 Original error: {err_str}"
+                    ) from e
+
+                # 服务器过载(503 UNAVAILABLE/"high demand"): 这跟上面的限流(429)是完全
+                # 不同的两回事——限流是"你这个账号这段时间调用太多次"，过载是"Gemini这个
+                # 型号现在全球都很忙，跟你的账号/额度没关系"。之前这种错误完全没被接住，
+                # 会直接原样抛出去，导致明明只是暂时的服务器繁忙，也要你手动点重试，
+                # 拍6张只成功识别1张、有时候连续点10次都不行，就是这个原因。
+                # 换Key对这种情况通常没用(不是账号问题)，真正有效的做法是等几秒再用
+                # 同一把Key重试——Gemini这边的过载往往几秒到十几秒内就恢复了。
+                is_overloaded = (
+                    "UNAVAILABLE" in err_str or "503" in err_str
+                    or "high demand" in err_str.lower() or "overloaded" in err_str.lower()
+                )
+                if is_overloaded:
+                    self._overload_retries = getattr(self, "_overload_retries", 0) + 1
+                    max_overload_retries = 4
+                    if self._overload_retries <= max_overload_retries:
+                        wait_s = min(3 * self._overload_retries, 15)
+                        logger.warning(
+                            f"⚠️  Gemini服务器暂时过载(503 high demand)，"
+                            f"{wait_s}秒后自动重试(第{self._overload_retries}/{max_overload_retries}次)..."
+                        )
+                        time.sleep(wait_s)
+                        continue
+
+                    self._overload_retries = 0
+                    _SESSION_USAGE["last_error"] = "Gemini服务器过载 Server overloaded (503)"
+                    raise RuntimeError(
+                        f"Gemini服务器目前过载(高峰期常见)，自动重试了 {max_overload_retries} 次"
+                        f"(每次间隔加长)还是不行，先手动等一两分钟再试一次。\n"
+                        "这不是你账号的问题(不是限流/额度用完)，是Gemini这个型号现在全球请求"
+                        "量太大，Google那边处理不过来，过一会儿通常就恢复了。\n\n"
+                        "Gemini's servers are currently overloaded (common during peak hours). "
+                        f"Auto-retried {max_overload_retries} times with increasing delays but it's "
+                        "still failing — try again manually in a minute or two.\n"
+                        "This isn't a problem with your account/quota; it's Google's model being "
+                        "too busy right now, which usually clears up on its own.\n\n"
                         f"原始错误 Original error: {err_str}"
                     ) from e
 
